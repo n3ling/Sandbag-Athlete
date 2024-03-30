@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default function ListingScreen() {
+
     return (
       <View style={styles.container}>
-        <Text>Listings Screen!</Text>
+        <Text>Listing Screen!</Text>
       </View>
     );
   }
