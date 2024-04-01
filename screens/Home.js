@@ -2,6 +2,8 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
+import { auth } from '../firebaseConfig';
+import { signOut } from 'firebase/auth';
 import { useEffect } from 'react';
 
 import ListingScreen from './Listings';
@@ -13,8 +15,21 @@ const Stack = createStackNavigator();
 
 const ListingStackComponent = ({navigation}) => {
 
-    const logoutPressed = () => {
-        navigation.navigate("Login");
+    const logoutPressed = async () => {
+        try {
+            if (auth.currentUser === null) {
+                console.log("No user logged in");
+                alert("No user logged in. Redirecting to login page.");
+                navigation.navigate("Login");
+            }
+            else {
+                
+                await signOut(auth);
+                navigation.navigate("Login");
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     const addListingPressed = () => {
@@ -33,7 +48,7 @@ const ListingStackComponent = ({navigation}) => {
             headerRight: ()=>{
                 return(
                     <View>
-                        <Button title="+" onPress={addListingPressed}/>
+                        <Button title="+" onPress={addListingPressed} />
                     </View>
                 )
             }
