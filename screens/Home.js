@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Alert, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
@@ -15,21 +15,8 @@ const Stack = createStackNavigator();
 
 const ListingStackComponent = ({navigation}) => {
 
-    const logoutPressed = async () => {
-        try {
-            if (auth.currentUser === null) {
-                console.log("No user logged in");
-                alert("No user logged in. Redirecting to login page.");
-                navigation.navigate("Login");
-            }
-            else {
-                
-                await signOut(auth);
-                navigation.navigate("Login");
-            }
-        } catch (err) {
-            console.log(err);
-        }
+    const goToLogin = () => {
+        navigation.navigate("Login");
     }
 
     const addListingPressed = () => {
@@ -41,14 +28,16 @@ const ListingStackComponent = ({navigation}) => {
             <Stack.Screen name="Listings" component={ListingScreen} options={{headerLeft: ()=>{
                 return(
                     <View>
-                        <Button title="Logout" onPress={logoutPressed}/>
+                        <Button title="Logout" onPress={goToLogin}/>
                     </View>
                 )
             },
             headerRight: ()=>{
                 return(
                     <View>
-                        <Button title="+" onPress={addListingPressed} />
+                        <TouchableOpacity onPress={addListingPressed}>
+                            <Text style={styles.addButton}>+</Text>
+                        </TouchableOpacity>
                     </View>
                 )
             }
@@ -60,14 +49,45 @@ const ListingStackComponent = ({navigation}) => {
 
 export default function HomeScreen({navigation}) {
 
-    // useEffect(
-    //     ()=>{
-    //         navigation.addListener('beforeRemove', (e) => {
-    //             e.preventDefault();
-    //         })
-    //     },
-    //     [navigation]
-    // )
+    const logoutPressed = async () => {
+        try {
+            if (auth.currentUser === null) {
+                console.log("No user logged in");
+                alert("No user logged in. Redirecting to login page.");
+            }
+            else {
+
+                await signOut(auth);
+                console.log(auth.currentUser);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(
+        ()=>{
+            navigation.addListener('beforeRemove', (e) => {
+                e.preventDefault();
+                Alert.alert(
+                    'Logout?',
+                    'Are you sure you want to logout?',
+                    [
+                        {
+                            text: 'Yes',
+                            style: 'destructive',
+                            onPress: () => {
+                                logoutPressed();
+                                navigation.dispatch(e.data.action)
+                            },
+                        },
+                        { text: "No", style: 'cancel', onPress: () => {} },
+                    ]
+                )
+            })
+        },
+        [navigation]
+    )
 
   return (
     <Tab.Navigator>
@@ -84,4 +104,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  addButton: {
+    color: "#007AFF",
+    marginRight: 15,
+    fontSize: 30
+  }
 });
