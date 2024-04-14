@@ -54,15 +54,15 @@ export default function ListingScreen() {
 
             // get every athlete for ownerId and save to state variable
             querySnapshot.forEach((currDoc) => {
-                console.log(currDoc.id, " => ", currDoc.data());
+                //console.log(currDoc.id, " => ", currDoc.data());
                 const athlete = {
                     id: currDoc.id,
                     ...currDoc.data()
                 }
-                console.log(athlete);
+                //console.log(athlete);
                 resultsFromDB.push(athlete)
             })
-            console.log("------")
+            //console.log("------")
           
             // update the flat list
             setAthleteList(resultsFromDB)

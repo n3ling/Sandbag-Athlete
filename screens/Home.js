@@ -42,7 +42,9 @@ const ListingStackComponent = ({navigation}) => {
                 )
             }
             }}/>
-            <Stack.Screen name="Add Listing" component={AddListingScreen} options={{}}/>
+            <Stack.Screen name="Add Listing" component={AddListingScreen} options={{
+                title:"Add Athlete Listing",
+            }}/>
         </Stack.Navigator>
     )
 }
