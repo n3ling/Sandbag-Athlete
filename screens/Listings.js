@@ -1,4 +1,4 @@
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { db, auth } from '../firebaseConfig';
 import { doc, getDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
@@ -82,12 +82,17 @@ export default function ListingScreen() {
             renderItem={
                     ({item})=>{
                         return(
-                            <View>
-                                <Text>Name: {item.fname} {item.lname}</Text>
-                                <Text>Sport: {item.sport}</Text>
-                                <Text>Experience: {item.experience} years</Text>
-                                <Text>Price: ${item.price} per day</Text>
-                                <Text>Pro: {item.pro.toString().charAt(0).toUpperCase() + item.pro.toString().slice(1)}</Text>
+                            <View style={{margin:10, flexDirection:"row", justifyContent: "space-between"}}>
+                                <View>
+                                    <Text>Name: {item.fname} {item.lname}</Text>
+                                    <Text>Sport: {item.sport}</Text>
+                                    <Text>Experience: {item.experience} years</Text>
+                                    <Text>Price: ${item.price} per day</Text>
+                                    <Text>Pro: {item.pro.toString().charAt(0).toUpperCase() + item.pro.toString().slice(1)}</Text>
+                                </View>
+                                <View>
+                                    <Image style={{height:125,width:125}} source={{uri: item.pic}} />
+                                </View>
                             </View>
                         )
                     }
@@ -95,7 +100,7 @@ export default function ListingScreen() {
             ItemSeparatorComponent={
                 ()=>{
                   return(
-                    <View style={{borderWidth:1, borderColor:"#ccc", marginVertical:4}}></View>
+                    <View style={{borderWidth:1, borderColor:"#ccc", marginVertical:10}}></View>
                   )
                 }
               }
@@ -109,8 +114,6 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
     },
   });
   

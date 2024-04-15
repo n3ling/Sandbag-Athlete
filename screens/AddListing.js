@@ -97,6 +97,7 @@ export default function AddListingScreen() {
                 sport: sportUI,
                 location: geocodeLocation[0],
                 available: true,
+                pic: imageFromGallery
             }
 
             console.log(athleteToInsert);
@@ -186,6 +187,9 @@ const styles = StyleSheet.create({
     subtitle: {
         fontSize: 20,
         fontFamily: "Futura",
+        padding: 5,
+        margin: 5,
+        marginVertical: 25
     },
     formFieldView: {
         flexDirection: "row",

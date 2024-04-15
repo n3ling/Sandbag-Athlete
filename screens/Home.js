@@ -93,7 +93,7 @@ export default function HomeScreen({navigation}) {
 
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Listings Stack" component={ListingStackComponent} options={{headerShown:false}}/>
+      <Tab.Screen name="Listings Stack" component={ListingStackComponent} options={{headerShown:false, title:"Listings"}}/>
       <Tab.Screen name="Bookings" component={BookingScreen} />
     </Tab.Navigator>
   );
